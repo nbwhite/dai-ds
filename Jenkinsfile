@@ -4,7 +4,7 @@ pipeline {
         stage('Unit + Integration') {
             parallel {
                 stage('Unit Tests') {
-                    agent { label 'NRE-BUILD' }
+                    agent { label 'BAT-Build' }
                     steps {
                         lastChanges format: 'LINE', matchWordsThreshold: '0.25', matching: 'NONE',
                                 matchingMaxComparisons: '1000', showFiles: true, since: 'PREVIOUS_REVISION',
@@ -29,31 +29,31 @@ pipeline {
                         junit '**/test-results/**/*.xml'
                     }
                 }
-                stage('Integration Tests') {
-                    agent { label 'NRE-TEST' }
-                    environment {
-                        PATH = "${PATH}:/home/${USER}/voltdb9.1/bin"
-                    }
-                    steps {
-                        copyArtifacts filter: '**', fingerprintArtifacts: true,
-                                projectName: "Components",
-                                selector: lastWithArtifacts()
-
-                        script {
-                            utilities.FixFilesPermission()
-                            StartHWInvDb()
-                            utilities.InvokeGradle(":foreign_bus:clean compilejava compiletestjava compileIntegrationGroovy")
-                            utilities.InvokeGradle("integrationTest || true")
-                            StopHWInvDb()
-                        }
-
-                        sh 'rm -f *.zip'
-                        zip archive: true, dir: '', glob: '**/build/jacoco/integrationTest.exec', zipFile: 'integration-test-coverage.zip'
-
-                        jacoco classPattern: '**/classes/java/main/com/intel/', execPattern: '**/integrationTest.exec'
-                        junit '**/test-results/**/*.xml'
-                    }
-                }
+//                stage('Integration Tests') {
+//                    agent { label 'Bat-Test' }
+//                    environment {
+//                       PATH = "${PATH}:/home/${USER}/voltdb9.1/bin"
+//                    }
+//                    steps {
+//                        copyArtifacts filter: '**', fingerprintArtifacts: true,
+//                                projectName: "Components",
+  //                              selector: lastWithArtifacts()
+//
+//                        script {
+//                            utilities.FixFilesPermission()
+//                            StartHWInvDb()
+//                            utilities.InvokeGradle(":foreign_bus:clean compilejava compiletestjava compileIntegrationGroovy")
+//                            utilities.InvokeGradle("integrationTest || true")
+//                            StopHWInvDb()
+//                        }
+//
+//                        sh 'rm -f *.zip'
+//                        zip archive: true, dir: '', glob: '**/build/jacoco/integrationTest.exec', zipFile: 'integration-test-coverage.zip'
+//
+//                        jacoco classPattern: '**/classes/java/main/com/intel/', execPattern: '**/integrationTest.exec'
+//                        junit '**/test-results/**/*.xml'
+//                    }
+//                }
             }
         }
     }
