@@ -13,8 +13,9 @@ pipeline {
                         script {
                             utilities.FixFilesPermission()
                             // sh 'docker-build/docker-build.sh clean build || true'
-                            utilities.InvokeGradle(":foreign_bus:clean compilejava compiletestjava compiletestgroovy")
-                            utilities.InvokeGradle("build || true")
+                            // utilities.InvokeGradle(":foreign_bus:clean compilejava compiletestjava compiletestgroovy")
+                            utilities.InvokeGradle("clean")
+		            utilities.InvokeGradle("build || true")
                         }
 
                         sh 'rm -f *.zip'
