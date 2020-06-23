@@ -25,5 +25,6 @@ include 'monitoring'
 include 'ras'
 include 'eventsim'
 include 'fabric'
+include 'developer_apps'
 
 rootProject.name = 'dai'

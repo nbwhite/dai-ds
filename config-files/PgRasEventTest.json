@@ -1,0 +1,13 @@
+{
+    "db": {
+        "type": "jdbc",
+        "url": "jdbc:postgresql://localhost:5432/exampledb",
+        "username": "exampleuser",
+        "password": "example@123"
+    },
+    "test": {
+        "num-transactions": 10000,
+        "records-per-transaction": 500,
+        "next-id": 1
+    }
+}

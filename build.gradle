@@ -1080,6 +1080,29 @@ project(':eventsim') {
     }
 }
 
+project(':developer_apps') {
+
+    apply plugin: 'application'
+
+    dependencies {
+        compile project(':properties')
+        compile project(':logging')
+        compile project(':networking')
+        compile project(':xdg')
+        compile project(':config_io')
+        compile project(':dai_core')
+    }
+    project.mainClassName = project.hasProperty("main") ? project.getProperty("main") : 'com.intel.dai.developer_apps.DeveloperApps'
+
+    jar {
+        manifest {
+            attributes(
+                    "Class-Path": configurations.compile.collect { it.getName() }.join(' '),
+                    'Main-Class': project.mainClassName)
+        }
+    }
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Summarize coverage HTML                                                             //
 /////////////////////////////////////////////////////////////////////////////////////////
