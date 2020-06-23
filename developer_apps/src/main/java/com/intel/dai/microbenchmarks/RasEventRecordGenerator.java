@@ -13,8 +13,9 @@ public class RasEventRecordGenerator {
         rec.dbUpdatedTimestamp = Instant.now();
         rec.lastChtTimestamp = Instant.now();
 
-        nextRecord++;
-        nextRecord %= NUM_RECORDS;
+        //nextRecord++;
+        //nextRecord %= NUM_RECORDS;
+	nextRecord();
 
         return rec;
     }
@@ -37,6 +38,11 @@ public class RasEventRecordGenerator {
         // Leave the timestamps and ID blank, as these should be assigned at the time of record generation.
 
         return record;
+    }
+
+    private static void nextRecord() {
+	nextRecord++;
+	nextRecord %= NUM_RECORDS;
     }
 
     private static final String LOCATION = "R0-0-CH0-CB0-CN1";
